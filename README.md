@@ -5,7 +5,7 @@
 ---
 
 ## 🚀 Deployed Link
-*   **Live Demo:** Deployed via Docker container on Render (insert your Render URL here)
+*   **Live Demo:** Deployed on Render (insert your Render URL here)
 *   **API Documentation:** `https://your-app-url.onrender.com/docs` (Swagger UI)
 
 ---
@@ -16,7 +16,6 @@
 ![LangGraph](https://img.shields.io/badge/LangGraph-State%20Machine-black?style=for-the-badge&logo=chainlink&logoColor=white)
 ![Groq](https://img.shields.io/badge/Groq%20API-Fast%20Inference-black?style=for-the-badge&logo=fastapi&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-REST%20Endpoints-black?style=for-the-badge&logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Containerization-black?style=for-the-badge&logo=docker&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-Deployment-black?style=for-the-badge&logo=render&logoColor=white)
 
 ---
@@ -79,25 +78,6 @@ Each node in the state machine is powered by a model best suited for its cogniti
 
 ---
 
-## 🎨 Minimalist Editorial UI
-The frontend is designed with a **high-contrast, grayscale editorial theme** using the classic **Times New Roman** serif font family. It resembles a prestigious academic journal or an editorial column, featuring:
-*   Sharp 1px structural borders (no colorful curves or glows).
-*   Clean, thin progress loader line showing system node states in real-time.
-*   Grayscale scorecards mapping agent comparisons side-by-side.
-*   **Debate Ledger:** Clickable past debate cards that fetch complete archives directly from database logs.
-
----
-
-## 💡 System Design Highlights
-
-*   **Config-Driven Architecture:** Model identifiers, max token boundaries, temperatures, and paths are entirely defined in `.env` and initialized via [config.py](config.py). Zero hardcoding.
-*   **Externalized Prompts:** Prompts are stored in plain `.txt` files under `/prompts`. Editing prompts does not require redeploying backend logic.
-*   **Asynchronous Engine:** Fully async I/O writing logs/history in the background (`asyncio.create_task` + `aiofiles`) to reduce API response blocking.
-*   **Retry Middleware:** Automatic exponential backoff on Groq completions using the `tenacity` retry wrapper, handling network hiccups and rate limiting gracefully.
-*   **Qwen Think-Tag Stripper:** Integrates custom preprocessing to strip out chain-of-thought `<think>` tags, preventing token budget leakage and ensuring clean JSON parsing.
-
----
-
 ## 📂 Project Structure
 
 ```
@@ -105,7 +85,6 @@ debatemind/
 ├── .env.example            # Sample secrets and model setup
 ├── .gitignore              # Protects .env, logs/ and history/
 ├── requirements.txt        # Package requirements
-├── Dockerfile              # Container building directives
 ├── render.yaml             # Render infrastructure-as-code deployment layout
 ├── config.py               # Central config compiler
 ├── app/
@@ -143,7 +122,7 @@ debatemind/
 
 ---
 
-## 🛠️ Local Installation
+## 🛠️ Local Installation & Deployment
 
 ### 1. Prerequisite Conda Environment
 ```bash
@@ -180,23 +159,13 @@ HISTORY_DIR=history
 PROMPT_DIR=prompts
 ```
 
-### 4. Running the Dev Server
+### 4. Running the Dev Server (Frontend & Backend)
+The FastAPI app mounts the `/frontend` directory statically to the root URL `/`. Running the backend Uvicorn command automatically serves the web UI dashboard and APIs on the same port.
+
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
-Visit **`http://localhost:8000/`** to interact with the dashboard, or **`http://localhost:8000/docs`** to see raw schemas.
-
----
-
-## 🐳 Docker Containerization
-Build the container image:
-```bash
-docker build -t debatemind .
-```
-Run the container:
-```bash
-docker run -p 8000:8000 --env-file .env debatemind
-```
+Visit **`http://localhost:8000/`** in your browser to load the interactive web client.
 
 ---
 
