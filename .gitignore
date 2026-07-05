@@ -1,0 +1,47 @@
+# Secrets
+.env
+
+# DebateMind logs & local database
+logs/
+history/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.env/
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*~
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Packaging and builds
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# Local planning files
+implementationplan*.md
+implementationplann2.md
+implementationplanv2.md
+

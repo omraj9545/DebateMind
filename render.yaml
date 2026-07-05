@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: debatemind
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PRO_MODEL
+        value: qwen/qwen3-8b
+      - key: AGAINST_MODEL
+        value: meta-llama/llama-3.1-8b-instruct
+      - key: FACT_MODEL
+        value: deepseek-ai/deepseek-r1
+      - key: JUDGE_MODEL
+        value: google/gemma-2-9b-it
+      - key: MAX_RETRIES
+        value: "3"
+      - key: RETRY_WAIT_MIN
+        value: "1"
+      - key: RETRY_WAIT_MAX
+        value: "8"

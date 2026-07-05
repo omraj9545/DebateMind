@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebateMind — Multi-Agent AI Debate System</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-container">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-brain-circuit brain-icon"></i>
+            <span>Debate<span class="highlight">Mind</span></span>
+        </div>
+        <div class="tech-stack-badges">
+            <span class="badge langgraph"><i class="fa-solid fa-diagram-project"></i> LangGraph</span>
+            <span class="badge groq"><i class="fa-solid fa-bolt"></i> Groq LPU</span>
+            <span class="badge fastapi"><i class="fa-solid fa-gears"></i> FastAPI</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Debate Input Section -->
+        <section class="debate-setup">
+            <h1 class="hero-title">Orchestrate Multi-Agent AI Debates</h1>
+            <p class="hero-subtitle">Enter a controversial topic. Watch LLM agents challenge logic, perform fact-checking, and reach verdicts in seconds.</p>
+            
+            <form id="debate-form" class="glass-panel input-panel">
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-lightbulb input-icon"></i>
+                    <input type="text" id="topic-input" placeholder="e.g., Should artificial intelligence replace human judges in courtrooms?" required minlength="10" maxlength="300">
+                </div>
+                <button type="submit" id="submit-btn">
+                    <span>Initiate Debate</span>
+                    <i class="fa-solid fa-chevron-right btn-arrow"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- Loader State -->
+        <div id="loader" class="loader-container hidden">
+            <div class="spinner-wrapper">
+                <div class="spinner"></div>
+                <i class="fa-solid fa-brain-circuit spinner-icon"></i>
+            </div>
+            <h3 id="loader-status">Assembling Agent Council...</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-indicator"></div>
+            </div>
+            <p class="loader-detail">Timing and compiling results across models...</p>
+        </div>
+
+        <!-- Debate Results Dashboard -->
+        <section id="results-dashboard" class="hidden">
+            <div class="dashboard-header glass-panel">
+                <div class="dashboard-meta">
+                    <span class="debate-id-tag">Debate ID: <span id="res-debate-id">#89A1B2</span></span>
+                    <h2 id="res-topic" class="dashboard-topic">Topic Name</h2>
+                </div>
+                <div class="total-latency-tag">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="res-total-time">0.00s</span>
+                </div>
+            </div>
+
+            <!-- Agent Grid -->
+            <div class="agents-grid">
+                <!-- Pro Agent -->
+                <article class="agent-card glass-panel card-pro" id="card-pro">
+                    <div class="card-header">
+                        <div class="agent-title-info">
+                            <span class="stance-badge pro-badge">FOR</span>
+                            <h3>Pro Agent</h3>
+                        </div>
+                        <div class="card-meta">
+                            <span class="card-model" id="pro-model">Qwen3 32B</span>
+                            <span class="card-latency" id="pro-latency">0.0s</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="pro-body">
+                        Argument goes here...
+                    </div>
+                </article>
+
+                <!-- Against Agent -->
+                <article class="agent-card glass-panel card-against" id="card-against">
+                    <div class="card-header">
+                        <div class="agent-title-info">
+                            <span class="stance-badge against-badge">AGAINST</span>
+                            <h3>Against Agent</h3>
+                        </div>
+                        <div class="card-meta">
+                            <span class="card-model" id="against-model">Llama 3.3 70B</span>
+                            <span class="card-latency" id="against-latency">0.0s</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="against-body">
+                        Counter argument goes here...
+                    </div>
+                </article>
+
+                <!-- Fact Checker -->
+                <article class="agent-card glass-panel card-fact" id="card-fact">
+                    <div class="card-header">
+                        <div class="agent-title-info">
+                            <span class="stance-badge fact-badge">FACT CHECK</span>
+                            <h3>Fact Checker</h3>
+                        </div>
+                        <div class="card-meta">
+                            <span class="card-model" id="fact-model">Qwen3.6 27B</span>
+                            <span class="card-latency" id="fact-latency">0.0s</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="fact-body">
+                        Fact checking results...
+                    </div>
+                </article>
+
+                <!-- Judge Verdict -->
+                <article class="agent-card glass-panel card-judge" id="card-judge">
+                    <div class="card-header">
+                        <div class="agent-title-info">
+                            <span class="stance-badge judge-badge">VERDICT</span>
+                            <h3>Judge Agent</h3>
+                        </div>
+                        <div class="card-meta">
+                            <span class="card-model" id="judge-model">Llama 4 Scout</span>
+                            <span class="card-latency" id="judge-latency">0.0s</span>
+                        </div>
+                    </div>
+                    <div class="card-body" id="judge-body">
+                        <div class="winner-announcement">
+                            <span>Winner: </span>
+                            <span id="verdict-winner" class="winner-name">AGAINST</span>
+                        </div>
+                        <p id="verdict-text">Detailed verdict details...</p>
+                        
+                        <div class="turning-point-box">
+                            <strong>Key Turning Point:</strong>
+                            <p id="verdict-turning-point">Turning point sentence...</p>
+                        </div>
+
+                        <!-- Scoring Breakdown -->
+                        <div class="scoring-section">
+                            <h4>Score Card</h4>
+                            <div class="scores-container" id="scores-grid">
+                                <!-- Dynamically generated scores -->
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Debate History Section -->
+        <section class="history-section">
+            <div class="section-title">
+                <i class="fa-solid fa-history"></i>
+                <h2>Debate Ledger</h2>
+            </div>
+            <div id="history-list" class="history-grid">
+                <!-- Dynamically populated past debates -->
+                <div class="no-history">No debates recorded yet.</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>DebateMind v2.0.0 — Designed for Resume Portfolio</p>
+    </footer>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
