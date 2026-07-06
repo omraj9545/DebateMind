@@ -4,8 +4,8 @@ from pathlib import Path
 import aiofiles
 from config import LOG_DIR, MODELS
 
-async def log_debate(debate_id: str, state: dict) -> None:
-    """Write a structured JSON log for one completed debate."""
+async def log_debate(debate_id: str, state: dict, user_id: str) -> None:
+    """Write a structured JSON log for one completed debate, isolated by user_id."""
     record = {
         "debate_id":  debate_id,
         "timestamp":  datetime.now(timezone.utc).isoformat(),
@@ -25,6 +25,6 @@ async def log_debate(debate_id: str, state: dict) -> None:
         },
         "verdict": state["verdict"],
     }
-    path = Path(LOG_DIR) / f"debate_{debate_id}.json"
+    path = Path(LOG_DIR) / f"debate_{user_id}_{debate_id}.json"
     async with aiofiles.open(path, "w", encoding="utf-8") as f:
         await f.write(json.dumps(record, indent=2, ensure_ascii=False))

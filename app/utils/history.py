@@ -4,7 +4,7 @@ from pathlib import Path
 import aiofiles
 from config import HISTORY_DIR
 
-async def save_history(debate_id: str, topic: str, verdict: dict, total_latency: float) -> None:
+async def save_history(debate_id: str, topic: str, verdict: dict, total_latency: float, user_id: str) -> None:
     record = {
         "debate_id":     debate_id,
         "timestamp":     datetime.now(timezone.utc).isoformat(),
@@ -14,14 +14,14 @@ async def save_history(debate_id: str, topic: str, verdict: dict, total_latency:
         "scores":        verdict.get("scores"),
         "total_latency": total_latency,
     }
-    path = Path(HISTORY_DIR) / f"debate_{debate_id}.json"
+    path = Path(HISTORY_DIR) / f"debate_{user_id}_{debate_id}.json"
     async with aiofiles.open(path, "w", encoding="utf-8") as f:
         await f.write(json.dumps(record, indent=2, ensure_ascii=False))
 
-async def list_history(limit: int = 20) -> list[dict]:
-    """Return the most recent N debates from history, newest first."""
+async def list_history(user_id: str, limit: int = 20) -> list[dict]:
+    """Return the most recent N debates from history for this user, newest first."""
     files = sorted(
-        Path(HISTORY_DIR).glob("debate_*.json"),
+        Path(HISTORY_DIR).glob(f"debate_{user_id}_*.json"),
         key=lambda p: p.stat().st_mtime,
         reverse=True
     )[:limit]

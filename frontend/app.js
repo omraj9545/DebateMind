@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultsDashboard = document.getElementById("results-dashboard");
     const historyList = document.getElementById("history-list");
 
+    // Retrieve or generate unique user_id for session isolation
+    const userId = getOrCreateUserId();
+
+    function getOrCreateUserId() {
+        let id = localStorage.getItem("debatemind_user_id");
+        if (!id) {
+            id = 'usr_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem("debatemind_user_id", id);
+        }
+        return id;
+    }
+
     // Load history on load
     loadHistory();
 
@@ -29,7 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/debate", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "X-User-ID": userId
+                },
                 body: JSON.stringify({ topic })
             });
 
@@ -166,7 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load debate ledger from backend API
     async function loadHistory() {
         try {
-            const response = await fetch("/history");
+            const response = await fetch("/history", {
+                headers: { "X-User-ID": userId }
+            });
             if (!response.ok) return;
 
             const data = await response.json();
@@ -222,7 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Oh, history JSON files *only* have topic, winner, verdict, scores, total_latency.
             // Full log files (logs/debate_<id>.json) have outputs.pro_argument, against_argument, fact_check, and verdict.
             // Let's add a GET /debate/{debate_id} route to app/main.py. This makes the frontend ledger fully interactive!
-            const res = await fetch(`/debate/${debateId}`);
+            const res = await fetch(`/debate/${debateId}`, {
+                headers: { "X-User-ID": userId }
+            });
             if (!res.ok) {
                 alert("Failed to retrieve full debate logs from disk.");
                 return;

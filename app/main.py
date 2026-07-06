@@ -1,5 +1,6 @@
 import uuid
-from fastapi import FastAPI, HTTPException
+from typing import Optional
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.models.schemas import DebateRequest, DebateResponse
@@ -28,8 +29,9 @@ async def health():
     return {"status": "ok", "service": "DebateMind", "version": "2.0.0"}
 
 @app.post("/debate", response_model=DebateResponse)
-async def run_debate(request: DebateRequest):
+async def run_debate(request: DebateRequest, x_user_id: Optional[str] = Header(None, alias="X-User-ID")):
     debate_id = str(uuid.uuid4())[:8]
+    user_id = x_user_id or "default_user"
     initial_state = {
         "topic":           request.topic,
         "pro":             None,
@@ -48,9 +50,9 @@ async def run_debate(request: DebateRequest):
 
         # Run file logging and history saving as background tasks (fire-and-forget)
         import asyncio
-        asyncio.create_task(log_debate(debate_id, result))
+        asyncio.create_task(log_debate(debate_id, result, user_id))
         asyncio.create_task(save_history(
-            debate_id, request.topic, v, result["total_latency"]
+            debate_id, request.topic, v, result["total_latency"], user_id
         ))
 
         return DebateResponse(
@@ -78,16 +80,18 @@ async def run_debate(request: DebateRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/history")
-async def get_history(limit: int = 20):
-    return await list_history(limit=limit)
+async def get_history(limit: int = 20, x_user_id: Optional[str] = Header(None, alias="X-User-ID")):
+    user_id = x_user_id or "default_user"
+    return await list_history(user_id=user_id, limit=limit)
 
 @app.get("/debate/{debate_id}", response_model=DebateResponse)
-async def get_debate(debate_id: str):
+async def get_debate(debate_id: str, x_user_id: Optional[str] = Header(None, alias="X-User-ID")):
     import json
     from pathlib import Path
     from config import LOG_DIR
     
-    path = Path(LOG_DIR) / f"debate_{debate_id}.json"
+    user_id = x_user_id or "default_user"
+    path = Path(LOG_DIR) / f"debate_{user_id}_{debate_id}.json"
     if not path.exists():
         raise HTTPException(status_code=404, detail="Debate log not found.")
         
