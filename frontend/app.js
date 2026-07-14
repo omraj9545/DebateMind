@@ -121,6 +121,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("verdict-text").textContent = data.verdict;
         document.getElementById("verdict-turning-point").textContent = data.key_turning_point || "No specific turning point reported.";
 
+        // Populate new detailed breakdowns
+        const breakdown = data.decision_breakdown || {};
+        document.getElementById("judge-pro-analysis").textContent = breakdown.pro_analysis || "No detailed pro analysis compiled.";
+        document.getElementById("judge-against-analysis").textContent = breakdown.against_analysis || "No detailed against analysis compiled.";
+        document.getElementById("judge-fact-influence").textContent = breakdown.fact_check_influence || "No detailed fact checker evaluation compiled.";
+
         // Build scoring rows
         buildScoresGrid(data.scores);
 

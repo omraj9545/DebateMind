@@ -6,6 +6,11 @@ Use this exact schema:
 {
   "winner": "PRO or AGAINST",
   "verdict": "2-3 sentence balanced conclusion explaining why",
+  "decision_breakdown": {
+    "pro_analysis": "A detailed 2-3 sentence breakdown explaining the strengths and weaknesses of the PRO side's arguments.",
+    "against_analysis": "A detailed 2-3 sentence breakdown explaining the strengths and weaknesses of the AGAINST side's arguments.",
+    "fact_check_influence": "A detailed 2-3 sentence explanation of how the Fact Checker's report on fallacies or unsupported claims directly influenced the final scores."
+  },
   "scores": {
     "argument_quality":    {"pro": 0-100, "against": 0-100},
     "evidence_strength":   {"pro": 0-100, "against": 0-100},

@@ -386,8 +386,12 @@ main {
 }
 
 /* Remove colored left borders */
-.card-pro, .card-against, .card-fact, .card-judge {
+.card-pro, .card-against, .card-fact {
     border-left: 1px solid var(--border-color);
+}
+
+.card-judge {
+    border: 2px solid var(--text-primary) !important;
 }
 
 /* Judge-specific layouts */
@@ -615,3 +619,21 @@ footer {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+@media (max-width: 768px) {
+    .breakdown-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+    .breakdown-col {
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+        padding-right: 0 !important;
+        padding-bottom: 1rem;
+    }
+    .breakdown-col:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+

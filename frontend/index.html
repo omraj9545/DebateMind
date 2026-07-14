@@ -75,7 +75,62 @@
                 </div>
             </div>
 
-            <!-- Agent Grid -->
+            <!-- Judge Verdict (Main Highlight Card) -->
+            <article class="agent-card glass-panel card-judge" id="card-judge" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <div class="agent-title-info">
+                        <span class="stance-badge judge-badge">VERDICT</span>
+                        <h3>Judge Agent</h3>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-model" id="judge-model">Llama 3.3 70B</span>
+                        <span class="card-latency" id="judge-latency">0.0s</span>
+                    </div>
+                </div>
+                <div class="card-body" id="judge-body">
+                    <div class="winner-announcement">
+                        <span>Winner: </span>
+                        <span id="verdict-winner" class="winner-name">AGAINST</span>
+                    </div>
+                    <p id="verdict-text" style="font-size: 1.1rem; margin-bottom: 1.5rem; font-style: italic;">Detailed verdict details...</p>
+                    
+                    <!-- Detailed Decision Breakdown -->
+                    <div class="decision-breakdown-section" style="margin-bottom: 1.5rem;">
+                        <h4 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">How the Decision Was Reached</h4>
+                        <div class="breakdown-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div class="breakdown-col" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+                                <strong style="font-style: italic; display: block; margin-bottom: 0.35rem;">PRO Side Performance</strong>
+                                <p id="judge-pro-analysis" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;"></p>
+                            </div>
+                            <div class="breakdown-col" style="border-right: 1px solid var(--border-color); padding-right: 1rem;">
+                                <strong style="font-style: italic; display: block; margin-bottom: 0.35rem;">AGAINST Side Performance</strong>
+                                <p id="judge-against-analysis" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;"></p>
+                            </div>
+                            <div class="breakdown-col">
+                                <strong style="font-style: italic; display: block; margin-bottom: 0.35rem;">Fact Checker Influence</strong>
+                                <p id="judge-fact-influence" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                        <div class="turning-point-box" style="margin-top: 0;">
+                            <strong>Key Turning Point:</strong>
+                            <p id="verdict-turning-point" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">Turning point sentence...</p>
+                        </div>
+
+                        <!-- Scoring Breakdown -->
+                        <div class="scoring-section" style="margin-top: 0;">
+                            <h4>Score Card</h4>
+                            <div class="scores-container" id="scores-grid">
+                                <!-- Dynamically generated scores -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Agent Grid (Remaining Cards) -->
             <div class="agents-grid">
                 <!-- Pro Agent -->
                 <article class="agent-card glass-panel card-pro" id="card-pro">
@@ -125,40 +180,6 @@
                     </div>
                     <div class="card-body" id="fact-body">
                         Fact checking results...
-                    </div>
-                </article>
-
-                <!-- Judge Verdict -->
-                <article class="agent-card glass-panel card-judge" id="card-judge">
-                    <div class="card-header">
-                        <div class="agent-title-info">
-                            <span class="stance-badge judge-badge">VERDICT</span>
-                            <h3>Judge Agent</h3>
-                        </div>
-                        <div class="card-meta">
-                            <span class="card-model" id="judge-model">Llama 4 Scout</span>
-                            <span class="card-latency" id="judge-latency">0.0s</span>
-                        </div>
-                    </div>
-                    <div class="card-body" id="judge-body">
-                        <div class="winner-announcement">
-                            <span>Winner: </span>
-                            <span id="verdict-winner" class="winner-name">AGAINST</span>
-                        </div>
-                        <p id="verdict-text">Detailed verdict details...</p>
-                        
-                        <div class="turning-point-box">
-                            <strong>Key Turning Point:</strong>
-                            <p id="verdict-turning-point">Turning point sentence...</p>
-                        </div>
-
-                        <!-- Scoring Breakdown -->
-                        <div class="scoring-section">
-                            <h4>Score Card</h4>
-                            <div class="scores-container" id="scores-grid">
-                                <!-- Dynamically generated scores -->
-                            </div>
-                        </div>
                     </div>
                 </article>
             </div>

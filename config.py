@@ -8,10 +8,10 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Models — sourced from .env so swapping needs zero code changes
 MODELS = {
-    "pro":     os.getenv("PRO_MODEL",     "qwen/qwen3-32b"),
+    "pro":     os.getenv("PRO_MODEL",     "qwen/qwen3.6-27b"),
     "against": os.getenv("AGAINST_MODEL", "llama-3.3-70b-versatile"),
     "fact":    os.getenv("FACT_MODEL",    "qwen/qwen3.6-27b"),
-    "judge":   os.getenv("JUDGE_MODEL",   "meta-llama/llama-4-scout-17b-16e-instruct"),
+    "judge":   os.getenv("JUDGE_MODEL",   "llama-3.3-70b-versatile"),
 }
 
 # Agent settings

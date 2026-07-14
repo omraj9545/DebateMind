@@ -13,8 +13,9 @@ async def _call_groq(messages: list) -> str:
     response = await groq_client.chat.completions.create(
         model=MODELS["judge"],
         messages=messages,
-        max_tokens=500,
+        max_tokens=1500,
         temperature=TEMPERATURE["judge"],
+        response_format={"type": "json_object"}
     )
     return response.choices[0].message.content.strip()
 

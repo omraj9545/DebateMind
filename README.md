@@ -30,14 +30,13 @@ DebateMind coordinates a linear directed acyclic graph (DAG) where conversation 
                            ▼
                   [FastAPI Endpoint]
                            │
-                           ▼
              ┌───────────────────────────┐
              │   LangGraph Coordinator   │
              │   (State: DebateState)    │
              └─────────────┬─────────────┘
                            │
              ┌─────────────▼─────────────┐
-             │       Node 1: PRO         │  ──► Model: Qwen-32B
+             │       Node 1: PRO         │  ──► Model: Qwen-27B
              └─────────────┬─────────────┘
                            │ [Argument State]
              ┌─────────────▼─────────────┐
@@ -71,7 +70,7 @@ Each node in the state machine is powered by a model best suited for its cogniti
 
 | Agent Node | Active Model | Cognitive Rationale | Temperature |
 | :--- | :--- | :--- | :--- |
-| **Pro Agent** | `qwen/qwen3-32b` | Outstanding structured, numbered reasoning; confident, assertive arguing tone. | `0.70` |
+| **Pro Agent** | `qwen/qwen3.6-27b` | Outstanding structured, numbered reasoning; confident, assertive arguing tone. | `0.70` |
 | **Against Agent** | `llama-3.3-70b-versatile` | Highly conversational, responsive rebuttal generation; excellent at direct contextual critiques. | `0.75` |
 | **Fact Checker** | `qwen/qwen3.6-27b` | Low temperature analytical precision. Focuses strictly on logical fallacies and data consistency. | `0.30` |
 | **Judge Agent** | `meta-llama/llama-4-scout-17b-16e-instruct` | Excellent JSON output alignment. Consolidates multi-modal data and outputs clean scorecard matrices. | `0.20` |

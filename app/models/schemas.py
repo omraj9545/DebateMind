@@ -27,6 +27,11 @@ class AgentTiming(BaseModel):
     judge:      float
     total:      float
 
+class DecisionBreakdown(BaseModel):
+    pro_analysis: str
+    against_analysis: str
+    fact_check_influence: str
+
 class DebateResponse(BaseModel):
     debate_id:         str
     topic:             str
@@ -35,6 +40,7 @@ class DebateResponse(BaseModel):
     fact_check:        str
     winner:            str
     verdict:           str
+    decision_breakdown: Optional[DecisionBreakdown] = None
     scores:            DebateScores
     key_turning_point: Optional[str] = None
     timing:            AgentTiming
